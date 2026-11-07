@@ -877,7 +877,15 @@
 
                         <div class="contact-form-card reveal">
 
-                            <form id="contactForm" novalidate>
+                            <form action="https://formsubmit.co/primeiraclassedev@gmail.com" method="POST" id="contactForm" novalidate>
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_template" value="table">
+                            <input type="hidden" name="_subject"
+                                value="Nova mensagem pelo site da Cerâmica Santa Maria">
+                            <input type="hidden" name="_next" value="/">
+
+                            <!-- Honeypot anti-spam -->
+                            <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off">
 
                                 <div class="row g-4">
 
@@ -1106,8 +1114,8 @@
                                     <div>
                                         <span>E-mail</span>
 
-                                        <a href="mailto:contato@primeiraclasse.dev.br">
-                                            contato@primeiraclasse.dev.br
+                                        <a href="mailto:primeiraclassedev@gmail.com">
+                                            primeiraclassedev@gmail.com
                                         </a>
                                     </div>
 
