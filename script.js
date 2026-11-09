@@ -649,7 +649,6 @@ if (contactForm) {
 
 }
 
-
 /* =========================================
    17. INICIALIZAÇÃO
 ========================================= */
@@ -661,3 +660,103 @@ document.addEventListener("DOMContentLoaded", function () {
     updateActiveNavLink();
 
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tiltWindow = document.getElementById('tilt-window');
+
+    if (!tiltWindow) return;
+
+    let rect = null;
+    const maxTilt = 12; // Ângulo máximo de inclinação em graus
+
+    // Atualiza dimensões ao entrar com o mouse
+    tiltWindow.addEventListener('mouseenter', () => {
+        rect = tiltWindow.getBoundingClientRect();
+        tiltWindow.style.transition = 'transform 0.1s ease-out';
+    });
+
+    // Calcula inclinação baseada na posição relativa do cursor dentro da janela
+    tiltWindow.addEventListener('mousemove', (e) => {
+        if (!rect) rect = tiltWindow.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const xPercent = (x / rect.width) - 0.5;
+        const yPercent = (y / rect.height) - 0.5;
+
+        const rotateX = -(yPercent * maxTilt * 2);
+        const rotateY = (xPercent * maxTilt * 2);
+
+        requestAnimationFrame(() => {
+            tiltWindow.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+    });
+
+    // Restaura a posição original suavemente ao retirar o mouse
+    tiltWindow.addEventListener('mouseleave', () => {
+        rect = null;
+        tiltWindow.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+        tiltWindow.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitButton');
+            const btnText = submitBtn.querySelector('.button-text');
+            const btnLoading = submitBtn.querySelector('.button-loading');
+            const btnIcon = submitBtn.querySelector('.button-icon');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Oculta alertas anteriores
+                successMsg.classList.add('d-none');
+                if (errorMsg) errorMsg.classList.add('d-none');
+
+                // Validação dos campos do Bootstrap
+                if (!form.checkValidity()) {
+                    e.stopPropagation();
+                    form.classList.add('was-validated');
+                    return;
+                }
+
+                form.classList.add('was-validated');
+
+                // Estado de carregamento no botão
+                submitBtn.disabled = true;
+                btnText.classList.add('d-none');
+                btnLoading.classList.remove('d-none');
+                if (btnIcon) btnIcon.classList.add('d-none');
+
+                try {
+                    const formData = new FormData(form);
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        successMsg.classList.remove('d-none');
+                        form.reset();
+                        form.classList.remove('was-validated');
+                    } else {
+                        if (errorMsg) errorMsg.classList.remove('d-none');
+                    }
+                } catch (error) {
+                    if (errorMsg) errorMsg.classList.remove('d-none');
+                } finally {
+                    // Restaura o botão
+                    submitBtn.disabled = false;
+                    btnText.classList.remove('d-none');
+                    btnLoading.classList.add('d-none');
+                    if (btnIcon) btnIcon.classList.remove('d-none');
+                }
+            });
+        });

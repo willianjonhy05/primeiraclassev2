@@ -2185,3 +2185,25 @@ section {
     }
 
 }
+
+/* Container com perspectiva 3D */
+.hero-visual {
+    position: relative;
+    perspective: 1000px;
+}
+
+/* Janela central configurada para renderização 3D fluida */
+.code-window {
+    position: relative;
+    z-index: 1;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+}
+
+/* Garante que os cards flutuantes fiquem sempre acima da janela e imunes ao tilt */
+.floating-badge {
+    position: absolute;
+    z-index: 10;
+    transform: translateZ(0); /* Camada própria de renderização */
+}
