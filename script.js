@@ -442,6 +442,12 @@ formFields.forEach(field => {
 
     field.addEventListener("input", function () {
 
+        // Evita mostrar erro enquanto o campo estiver vazio
+        if (this.value.trim() === "") {
+            this.classList.remove("is-valid", "is-invalid");
+            return;
+        }
+
         // Evita mostrar erro enquanto o campo está vazio
         if (this.classList.contains("is-invalid")) {
 
@@ -532,159 +538,33 @@ function setLoadingState(isLoading) {
 
 
 /* =========================================
-   16. ENVIO DO FORMULÁRIO
-========================================= */
-
-if (contactForm) {
-
-    contactForm.addEventListener("submit", async function (event) {
-
-        event.preventDefault();
-
-        // Remove alerta anterior
-        successMessage.classList.add("d-none");
-
-        // Valida todos os campos
-        let formIsValid = true;
-
-        formFields.forEach(field => {
-
-            const valid = validateField(field);
-
-            if (!valid) {
-
-                formIsValid = false;
-
-            }
-
-        });
-
-
-        // Se houver erro, direciona para o primeiro campo inválido
-        if (!formIsValid) {
-
-            const firstInvalidField =
-                contactForm.querySelector(".is-invalid");
-
-            if (firstInvalidField) {
-
-                firstInvalidField.focus();
-
-            }
-
-            return;
-
-        }
-
-
-        // Exibe carregamento
-        setLoadingState(true);
-
-
-        /*
-         * SIMULAÇÃO DE ENVIO
-         *
-         * Este trecho apenas simula o processamento do formulário.
-         *
-         * Para um envio real, substitua por uma requisição
-         * fetch() para o backend ou serviço de formulários.
-         */
-
-        try {
-
-            await new Promise(resolve => {
-
-                setTimeout(resolve, 1500);
-
-            });
-
-
-            // Exibe mensagem de sucesso
-            successMessage.classList.remove("d-none");
-
-            successMessage.scrollIntoView({
-
-                behavior: "smooth",
-
-                block: "nearest"
-
-            });
-
-
-            // Limpa o formulário
-            contactForm.reset();
-
-
-            // Remove os estados de validação
-            formFields.forEach(field => {
-
-                field.classList.remove(
-                    "is-valid",
-                    "is-invalid"
-                );
-
-            });
-
-
-        } catch (error) {
-
-            console.error(
-                "Erro ao processar formulário:",
-                error
-            );
-
-            alert(
-                "Ocorreu um erro ao processar sua solicitação. " +
-                "Tente novamente."
-            );
-
-        } finally {
-
-            // Remove carregamento
-            setLoadingState(false);
-
-        }
-
-    });
-
-}
-
-/* =========================================
-   17. INICIALIZAÇÃO
+   16. INICIALIZAÇÕES DA PÁGINA
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
-
     updateNavbar();
-
     updateActiveNavLink();
-
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     const tiltWindow = document.getElementById('tilt-window');
-
     if (!tiltWindow) return;
 
     let rect = null;
-    const maxTilt = 12; // Ângulo máximo de inclinação em graus
+    const maxTilt = 12;
 
-    // Atualiza dimensões ao entrar com o mouse
     tiltWindow.addEventListener('mouseenter', () => {
         rect = tiltWindow.getBoundingClientRect();
         tiltWindow.style.transition = 'transform 0.1s ease-out';
     });
 
-    // Calcula inclinação baseada na posição relativa do cursor dentro da janela
     tiltWindow.addEventListener('mousemove', (e) => {
         if (!rect) rect = tiltWindow.getBoundingClientRect();
 
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-
         const xPercent = (x / rect.width) - 0.5;
         const yPercent = (y / rect.height) - 0.5;
-
         const rotateX = -(yPercent * maxTilt * 2);
         const rotateY = (xPercent * maxTilt * 2);
 
@@ -693,7 +573,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Restaura a posição original suavemente ao retirar o mouse
     tiltWindow.addEventListener('mouseleave', () => {
         rect = null;
         tiltWindow.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
@@ -701,62 +580,86 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+/* =========================================
+   17. ENVIO DO FORMULÁRIO
+========================================= */
+
 document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('contactForm');
-            const submitBtn = document.getElementById('submitButton');
-            const btnText = submitBtn.querySelector('.button-text');
-            const btnLoading = submitBtn.querySelector('.button-loading');
-            const btnIcon = submitBtn.querySelector('.button-icon');
-            const successMsg = document.getElementById('successMessage');
-            const errorMsg = document.getElementById('errorMessage');
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitButton');
+    if (!form || !submitBtn) return;
 
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
+    const btnText = submitBtn.querySelector('.button-text');
+    const btnLoading = submitBtn.querySelector('.button-loading');
+    const btnIcon = submitBtn.querySelector('.button-icon');
+    const successMsg = document.getElementById('successMessage');
+    const errorMsg = document.getElementById('errorMessage');
 
-                // Oculta alertas anteriores
-                successMsg.classList.add('d-none');
-                if (errorMsg) errorMsg.classList.add('d-none');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-                // Validação dos campos do Bootstrap
-                if (!form.checkValidity()) {
-                    e.stopPropagation();
-                    form.classList.add('was-validated');
-                    return;
-                }
+        // Oculta alertas anteriores
+        if (successMsg) successMsg.classList.add('d-none');
+        if (errorMsg) errorMsg.classList.add('d-none');
 
-                form.classList.add('was-validated');
+        // Usa a mesma validação visual e regras aplicadas em tempo real.
+        let formIsValid = true;
+        formFields.forEach((field) => {
+            if (!validateField(field)) formIsValid = false;
+        });
 
-                // Estado de carregamento no botão
-                submitBtn.disabled = true;
-                btnText.classList.add('d-none');
-                btnLoading.classList.remove('d-none');
-                if (btnIcon) btnIcon.classList.add('d-none');
+        if (!formIsValid) {
+            e.stopPropagation();
+            const firstInvalidField = form.querySelector('.is-invalid');
+            if (firstInvalidField) firstInvalidField.focus();
+            return;
+        }
 
-                try {
-                    const formData = new FormData(form);
-                    const response = await fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
+        // Estado de carregamento no botão
+        submitBtn.disabled = true;
+        if (btnText) btnText.classList.add('d-none');
+        if (btnLoading) btnLoading.classList.remove('d-none');
+        if (btnIcon) btnIcon.classList.add('d-none');
 
-                    if (response.ok) {
-                        successMsg.classList.remove('d-none');
-                        form.reset();
-                        form.classList.remove('was-validated');
-                    } else {
-                        if (errorMsg) errorMsg.classList.remove('d-none');
-                    }
-                } catch (error) {
-                    if (errorMsg) errorMsg.classList.remove('d-none');
-                } finally {
-                    // Restaura o botão
-                    submitBtn.disabled = false;
-                    btnText.classList.remove('d-none');
-                    btnLoading.classList.add('d-none');
-                    if (btnIcon) btnIcon.classList.remove('d-none');
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
                 }
             });
-        });
+
+            if (response.ok) {
+                if (successMsg) {
+                    successMsg.classList.remove('d-none');
+                    successMsg.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                }
+
+                // Remove a classe do Bootstrap PRIMEIRO para o navegador não pintar os campos vazios de vermelho
+                form.classList.remove('was-validated');
+
+                // Reseta o formulário
+                form.reset();
+
+                // Remove classes visuais de erro/sucesso de cada campo interno
+                form.querySelectorAll('.is-valid, .is-invalid').forEach(field => {
+                    field.classList.remove('is-valid', 'is-invalid');
+                });
+
+            } else {
+                if (errorMsg) errorMsg.classList.remove('d-none');
+            }
+        } catch (error) {
+            console.error("Erro no envio:", error);
+            if (errorMsg) errorMsg.classList.remove('d-none');
+        } finally {
+            // Restaura o botão
+            submitBtn.disabled = false;
+            if (btnText) btnText.classList.remove('d-none');
+            if (btnLoading) btnLoading.classList.add('d-none');
+            if (btnIcon) btnIcon.classList.remove('d-none');
+        }
+    });
+});
