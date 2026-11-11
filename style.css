@@ -245,6 +245,7 @@ section {
 
 .navbar-custom {
     background-color: rgba(12, 32, 54, 0.95);
+    
 
     padding: 16px 0;
 
@@ -276,6 +277,11 @@ section {
     width: 42px;
     height: 42px;
     object-fit: contain;
+    /* filter: drop-shadow(0 0 6px rgba(0, 212, 180, 0.45)); */
+    /* filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8))
+          drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6)); */
+    filter: brightness(1.9) contrast(1.5);
+    
 }
 
 .brand-text {
