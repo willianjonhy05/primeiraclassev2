@@ -60,6 +60,111 @@
 
     <!-- CSS Customizado -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Dados Estruturados Schema.org (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://primeiraclasse.dev.br/#organization",
+      "name": "Primeira Classe Desenvolvimento de Sistemas",
+      "alternateName": "Primeira Classe",
+      "url": "https://primeiraclasse.dev.br",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://primeiraclasse.dev.br/assets/logo.png"
+      },
+      "description": "Empresa especializada no desenvolvimento de sistemas online, aplicações web sob medida, APIs e plataformas corporativas de alta performance.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Teresina",
+        "addressRegion": "PI",
+        "addressCountry": "BR"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Brasil"
+      },
+      "founders": [
+        {
+          "@type": "Person",
+          "name": "Johny William Pereira de Sousa"
+        },
+        {
+          "@type": "Person",
+          "name": "Kaleo Cordeiro de Abreu"
+        },
+        {
+          "@type": "Person",
+          "name": "Roberto Carlos Cavalcante Lima Filho"
+        }
+      ],
+      "knowsAbout": [
+        "Desenvolvimento Web",
+        "Sistemas Online Sob Medida",
+        "Engenharia de Software",
+        "Desenvolvimento de APIs",
+        "Aplicações Mobile",
+        "Arquitetura de Software"
+      ],
+      "sameAs": [
+        "https://github.com/willianjonhy05"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://primeiraclasse.dev.br/#website",
+      "url": "https://primeiraclasse.dev.br",
+      "name": "Primeira Classe | Sistemas Online de Alta Performance",
+      "description": "Desenvolvimento de sistemas online, plataformas corporativas e soluções digitais sob medida.",
+      "publisher": {
+        "@id": "https://primeiraclasse.dev.br/#organization"
+      },
+      "inLanguage": "pt-BR"
+    },
+    {
+      "@type": "Service",
+      "serviceType": "Desenvolvimento de Sistemas Web e Software Sob Medida",
+      "provider": {
+        "@id": "https://primeiraclasse.dev.br/#organization"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Brasil"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Soluções Digitais Primeira Classe",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Sistemas Web Customizados"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "APIs e Microsserviços"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Plataformas Corporativas e Portais"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+</script>
 </head>
 
 <body>
@@ -1220,4 +1325,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- JavaScript Customizado -->
-    <script src="script.js"></scr
+    <script src="script.js"></script>
+
+</body>
+
+</html>
