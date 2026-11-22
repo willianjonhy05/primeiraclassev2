@@ -2075,7 +2075,7 @@ section {
 
     .team-image-wrapper {
         
-        height: 520px;
+        height: auto;
     }
 
     .cta-section {
