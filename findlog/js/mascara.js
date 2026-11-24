@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (statusEnvio === 'success' && successMsg) {
     successMsg.classList.remove('d-none');
     successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    sessionStorage.removeItem('form_status'); // Limpa para não reaparecer no F5
+    sessionStorage.removeItem('form_status');
   } else if (statusEnvio === 'error' && errorMsg) {
     errorMsg.classList.remove('d-none');
     errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // Exibe o spinner dentro do botão e bloqueia cliques duplos
+    // Esconde "Enviar mensagem", exibe o spinner "Enviando..." e bloqueia o botão
     submitBtn.disabled = true;
     if (btnDefault) btnDefault.classList.add('d-none');
     if (btnLoading) btnLoading.classList.remove('d-none');
@@ -157,8 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
       sessionStorage.setItem('form_status', 'error');
     }
 
-    // Redireciona para a mesma página já posicionado na seção de contato
-    window.location.href = window.location.pathname + '#contato';
+    // Recarrega a mesma página (a rolagem até o alerta ocorre no topo do script)
     window.location.reload();
   });
 });
