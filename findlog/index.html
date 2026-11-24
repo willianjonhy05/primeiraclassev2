@@ -7,10 +7,12 @@
     <title>FindLog | Gestão Inteligente de Achados e Perdidos</title>
 
     <!-- Meta Description (ideal entre 140 e 160 caracteres, clara e com chamada para ação) -->
-    <meta name="description" content="FindLog: sistema inteligente para cadastro, busca e gerenciamento de achados e perdidos. Localize seus pertences ou registre itens encontrados com rapidez.">
+    <meta name="description"
+        content="FindLog: sistema inteligente para cadastro, busca e gerenciamento de achados e perdidos. Localize seus pertences ou registre itens encontrados com rapidez.">
 
     <!-- Meta Keywords (focadas nos termos principais e variações sem acento) -->
-    <meta name="keywords" content="FindLog, achados e perdidos, sistema de achados e perdidos, objetos perdidos, cadastrar item perdido, recuperar pertences, gestao de achados e perdidos, localizar documentos">
+    <meta name="keywords"
+        content="FindLog, achados e perdidos, sistema de achados e perdidos, objetos perdidos, cadastrar item perdido, recuperar pertences, gestao de achados e perdidos, localizar documentos">
 
     <meta name="author" content="Primeira Classe Team Dev">
 
@@ -26,8 +28,10 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="FindLog">
     <meta property="og:title" content="FindLog - Gerenciamento de Achados e Perdidos">
-    <meta property="og:description" content="Sistema para gerenciamento de objetos achados e perdidos; facilitando a devolução dos itens a seus proprietários.">
-    <meta property="og:image" content="https://github.com/willianjonhy05/FindLogV2/blob/main/static/img/banner_findlog.jpg?raw=true">
+    <meta property="og:description"
+        content="Sistema para gerenciamento de objetos achados e perdidos; facilitando a devolução dos itens a seus proprietários.">
+    <meta property="og:image"
+        content="https://github.com/willianjonhy05/FindLogV2/blob/main/static/img/banner_findlog.jpg?raw=true">
     <meta property="og:url" content="https://findlog.com.br/">
     <meta property="og:locale" content="pt_BR">
 
@@ -35,8 +39,10 @@
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FindLog - Gerenciamento de Achados e Perdidos">
-    <meta name="twitter:description" content="Sistema para gerenciamento de objetos achados e perdidos; facilitando a devolução dos itens a seus proprietários.">
-    <meta name="twitter:image" content="https://github.com/willianjonhy05/FindLogV2/blob/main/static/img/banner_findlog.jpg?raw=true">
+    <meta name="twitter:description"
+        content="Sistema para gerenciamento de objetos achados e perdidos; facilitando a devolução dos itens a seus proprietários.">
+    <meta name="twitter:image"
+        content="https://github.com/willianjonhy05/FindLogV2/blob/main/static/img/banner_findlog.jpg?raw=true">
     <meta property="twitter:domain" content="https://findlog.com.br/">
     <meta property="twitter:url" content="https://findlog.com.br/">
     <meta name="twitter:site" content="@findlog">
@@ -261,21 +267,29 @@
                             <p class="section-subtitle">Tire suas dúvidas ou solicite uma apresentação institucional sob
                                 medida.</p>
                         </div>
-
                         <!-- FORMULÁRIO DE CONTATO -->
+                        <form id="contactForm" method="POST"
+                            action="https://formsubmit.co/ajax/primeiraclassedev@gmail.com" novalidate>
+                            <!-- Configurações do FormSubmit -->
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_template" value="table">
+                            <input type="hidden" name="_subject"
+                                value="Nova mensagem pelo site da Primeira Classe - Desenvolvimento de Sistemas">
 
-                        <form method="POST" action="https://formsubmit.co/ajax/primeiraclassedev@gmail.com" novalidate>
-                              <!-- Configurações do FormSubmit -->
-                                <input type="hidden" name="_captcha" value="false">
-                                <input type="hidden" name="_template" value="table">
-                                <input type="hidden" name="_subject"
-                                    value="Nova mensagem pelo site da Primeira Classe - Desenvolvimento de Sistemas">
+                            <!-- Honeypot anti-spam -->
+                            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
-                                <!-- Honeypot anti-spam (deve ser text invisível, não hidden) -->
-                                <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+                            <!-- Alertas de Feedback -->
+                            <div id="successMessage" class="alert alert-success d-none" role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                Mensagem enviada com sucesso! Recarregando a página...
+                            </div>
+                            <div id="errorMessage" class="alert alert-danger d-none" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                Ocorreu um erro ao enviar sua mensagem. Tente novamente.
+                            </div>
 
                             <div class="row g-3 mb-4">
-
                                 <div class="col-md-6">
                                     <label for="nome" class="form-label form-label-custom">
                                         Nome Completo <span class="text-danger">*</span>
@@ -283,7 +297,7 @@
                                     <input type="text" placeholder="Ex: Maria Pereira"
                                         class="form-control form-control-custom" id="nome" name="nome" maxlength="100"
                                         required>
-                                    
+                                    <div class="invalid-feedback">Por favor, informe seu nome completo.</div>
                                 </div>
 
                                 <div class="col-md-6">
@@ -293,7 +307,7 @@
                                     <input type="email" class="form-control form-control-custom"
                                         placeholder="exemplo@instituicao.com.br" id="email" name="email" maxlength="100"
                                         required>
-                                   
+                                    <div class="invalid-feedback">Por favor, insira um e-mail válido.</div>
                                 </div>
 
                                 <div class="col-md-6">
@@ -301,28 +315,24 @@
                                         Telefone / WhatsApp <span class="text-danger">*</span>
                                     </label>
                                     <input type="tel" class="form-control form-control-custom" id="telefone"
-                                        name="telefone" placeholder="(00) 00000-0000" maxlength="15"
-                                        required>
-                                    
+                                        name="telefone" placeholder="(00) 00000-0000" maxlength="15" required>
+                                    <div class="invalid-feedback">Por favor, informe um telefone válido.</div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="assunto" class="form-label form-label-custom">
                                         Assunto <span class="text-danger">*</span>
                                     </label>
-                                   <select class="form-select form-select-custom id="assunto" name="assunto" required>
-                                        <option value="" disabled selected>
-                                            Selecione um assunto...
-                                        </option>
-
-                                            <option value="duvidas">Dúvidas</option>
-                                            <option value="demonstracao">Solicitar Demonstração</option>
-                                            <option value="orcamento">Solicitar Orçamento</option>
-                                            <option value="parceria">Proposta de Parceria</option>
-                                            <option value="outros">Outros</option>
-                                            
+                                    <!-- Corrigido: adicionada a aspa de fechamento na classe -->
+                                    <select class="form-select form-select-custom" id="assunto" name="assunto" required>
+                                        <option value="" disabled selected>Selecione um assunto...</option>
+                                        <option value="duvidas">Dúvidas</option>
+                                        <option value="demonstracao">Solicitar Demonstração</option>
+                                        <option value="orcamento">Solicitar Orçamento</option>
+                                        <option value="parceria">Proposta de Parceria</option>
+                                        <option value="outros">Outros</option>
                                     </select>
-                                  
+                                    <div class="invalid-feedback">Por favor, selecione um assunto.</div>
                                 </div>
 
                                 <div class="col-12">
@@ -333,20 +343,25 @@
                                         rows="6" maxlength="2000"
                                         placeholder="Conte como podemos ajudar a sua instituição..."
                                         required></textarea>
-                                 
+                                    <div class="invalid-feedback">Por favor, escreva sua mensagem.</div>
                                 </div>
-
                             </div>
 
                             <div class="text-center text-md-end">
-                                <button type="submit" class="btn btn-primary-custom btn-lg px-4">
-                                    <i class="bi bi-send-fill me-1"></i>
-                                    Enviar mensagem
+                                <button type="submit" id="submitButton" class="btn btn-primary-custom btn-lg px-4">
+                                    <!-- Estado Normal -->
+                                    <span class="button-icon"><i class="bi bi-send-fill me-1"></i></span>
+                                    <span class="button-text">Enviar mensagem</span>
+
+                                    <!-- Estado de Carregamento (Spinner do Bootstrap) -->
+                                    <span class="button-loading d-none">
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"
+                                            aria-hidden="true"></span>
+                                        Enviando...
+                                    </span>
                                 </button>
                             </div>
                         </form>
-
-
                     </div>
                 </div>
             </div>
@@ -399,10 +414,8 @@
                 <p class="mb-1">© 2026 <strong>FindLog</strong> — Todos os direitos reservados.</p>
                 <p class="footer-subtext mb-0">
                     Projeto desenvolvido pela
-                    <a href="https://primeiraclasse.dev.br"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-decoration-none fw-semibold">
+                    <a href="https://primeiraclasse.dev.br" target="_blank" rel="noopener noreferrer"
+                        class="text-decoration-none fw-semibold">
                         Equipe Primeira Classe de Desenvolvimento
                     </a>
                 </p>
