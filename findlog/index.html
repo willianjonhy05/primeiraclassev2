@@ -251,17 +251,6 @@
     <section class="contact-section py-5" id="contato">
         <div class="container py-lg-4">
 
-         {% if messages %}
-            <div class="mb-4">
-                {% for message in messages %}
-                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
             <div class="row justify-content-center">
                 <div class="col-lg-8">
 
@@ -393,10 +382,10 @@
                 <div class="col-lg-4 col-md-12">
                     <h5 class="footer-heading mb-3">Contato Institucional</h5>
                     <p class="footer-contact-item mb-2">
-                        <i class="bi bi-envelope me-2 footer-icon"></i> contato@findlog.com.br
+                        <i class="bi bi-envelope me-2 footer-icon"></i> contato@primeiraclasse.dev.br
                     </p>
                     <p class="footer-contact-item mb-2">
-                        <i class="bi bi-telephone me-2 footer-icon"></i> (86) 4000-2026
+                        <i class="bi bi-telephone me-2 footer-icon"></i> (86) 98897-8435
                     </p>
                     <p class="footer-contact-item mb-0">
                         <i class="bi bi-geo-alt me-2 footer-icon"></i> Teresina / Piauí — Brasil
