@@ -1,6 +1,23 @@
 document.addEventListener('DOMContentLoaded', function () {
   // ==========================================
-  // 1. MÁSCARAS DE INPUT (CNPJ, CPF, TELEFONE)
+  // 1. VERIFICA SE HÁ MENSAGEM PÓS-REDIRECIONAMENTO
+  // ==========================================
+  const successMsg = document.getElementById('successMessage');
+  const errorMsg = document.getElementById('errorMessage');
+  const statusEnvio = sessionStorage.getItem('form_status');
+
+  if (statusEnvio === 'success' && successMsg) {
+    successMsg.classList.remove('d-none');
+    successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    sessionStorage.removeItem('form_status'); // Limpa para não reaparecer no F5
+  } else if (statusEnvio === 'error' && errorMsg) {
+    errorMsg.classList.remove('d-none');
+    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    sessionStorage.removeItem('form_status');
+  }
+
+  // ==========================================
+  // 2. MÁSCARAS DE INPUT (CNPJ, CPF, TELEFONE)
   // ==========================================
   const cnpjInput = document.getElementById('cnpj');
   if (cnpjInput) {
@@ -53,9 +70,16 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ==========================================
-  // 2. VALIDAÇÃO DE CAMPOS
+  // 3. VALIDAÇÃO E ENVIO DO FORMULÁRIO
   // ==========================================
-  const emailInput = document.getElementById('email');
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitButton');
+
+  if (!form || !submitBtn) return;
+
+  const btnDefault = submitBtn.querySelector('.button-default');
+  const btnLoading = submitBtn.querySelector('.button-loading');
+  const formFields = form.querySelectorAll('input[required], select[required], textarea[required]');
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   function validateField(field) {
@@ -80,28 +104,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return true;
   }
 
-  if (emailInput) {
-    emailInput.addEventListener('blur', () => validateField(emailInput));
-    emailInput.addEventListener('input', () => emailInput.classList.remove('is-invalid'));
-  }
-
-  // ==========================================
-  // 3. ENVIO DO FORMULÁRIO COM LOADING E RELOAD
-  // ==========================================
-  const form = document.getElementById('contactForm');
-  const submitBtn = document.getElementById('submitButton');
-
-  if (!form || !submitBtn) return;
-
-  const btnText = submitBtn.querySelector('.button-text');
-  const btnLoading = submitBtn.querySelector('.button-loading');
-  const btnIcon = submitBtn.querySelector('.button-icon');
-  const successMsg = document.getElementById('successMessage');
-  const errorMsg = document.getElementById('errorMessage');
-  const formFields = form.querySelectorAll('input[required], select[required], textarea[required]');
-
-  // Remove o vermelho assim que o usuário digitar ou alterar um campo
+  // Validação em tempo real / saída de foco
   formFields.forEach((field) => {
+    field.addEventListener('blur', () => validateField(field));
     field.addEventListener('input', () => field.classList.remove('is-invalid'));
     field.addEventListener('change', () => field.classList.remove('is-invalid'));
   });
@@ -109,10 +114,11 @@ document.addEventListener('DOMContentLoaded', function () {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    // Oculta alertas anteriores antes de tentar novo envio
     if (successMsg) successMsg.classList.add('d-none');
     if (errorMsg) errorMsg.classList.add('d-none');
 
-    // Valida todos os campos obrigatórios antes de enviar
+    // Valida todos os campos obrigatórios
     let formIsValid = true;
     formFields.forEach((field) => {
       if (!validateField(field)) {
@@ -126,10 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // Ativa o estado de carregamento no botão
+    // Exibe o spinner dentro do botão e bloqueia cliques duplos
     submitBtn.disabled = true;
-    if (btnText) btnText.classList.add('d-none');
-    if (btnIcon) btnIcon.classList.add('d-none');
+    if (btnDefault) btnDefault.classList.add('d-none');
     if (btnLoading) btnLoading.classList.remove('d-none');
 
     try {
@@ -143,30 +148,17 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       if (response.ok) {
-        if (successMsg) {
-          successMsg.classList.remove('d-none');
-          successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        form.reset();
-
-        // Aguarda 1,5 segundo para o usuário ler a confirmação e recarrega a página
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-
+        sessionStorage.setItem('form_status', 'success');
       } else {
-        throw new Error('Falha na resposta do servidor');
+        sessionStorage.setItem('form_status', 'error');
       }
     } catch (error) {
       console.error('Erro no envio:', error);
-      if (errorMsg) errorMsg.classList.remove('d-none');
-
-      // Restaura o botão apenas se der erro (se der certo, a página vai recarregar)
-      submitBtn.disabled = false;
-      if (btnText) btnText.classList.remove('d-none');
-      if (btnIcon) btnIcon.classList.remove('d-none');
-      if (btnLoading) btnLoading.classList.add('d-none');
+      sessionStorage.setItem('form_status', 'error');
     }
+
+    // Redireciona para a mesma página já posicionado na seção de contato
+    window.location.href = window.location.pathname + '#contato';
+    window.location.reload();
   });
 });
